@@ -35,9 +35,11 @@ npm install
 
 Create a .env file in the root directory:
 
-OPENAI_API_KEY=sk-...your-openai-key...```
+```sh 
+OPENAI_API_KEY=sk-...your-openai-key...
 OPENAI_MODEL=gpt-4o```
 CODE_BASE_PATH=./webapp```      # or your code folder
+```
 
 ## Running the App
 
@@ -95,12 +97,11 @@ If your codebase is large, reduce the batch size to avoid timeouts or memory exh
 If you get OpenAI API errors, check your API key and usage limits.
 
 ### License
-MIT (or your chosen license)
+MIT
 
 ### Credits
 Built with Express, OpenAI API, and nodemon.
 
 Happy coding!
 
-Let me know if you want this tailored for your repo name, or want a sample screenshot section!
 
