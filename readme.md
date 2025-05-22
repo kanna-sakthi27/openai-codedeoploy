@@ -85,7 +85,7 @@ json
 ### Customization
 * Change supported file extensions in src/index.js (fileExts array).
 
-* Addjust batch size by editing batchSize in src/index.js.
+* Adjust batch size by editing batchSize in src/index.js.
 
 * Update the system prompt in src/openaiClientOpenAI.js for different code review instructions.
 
