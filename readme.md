@@ -10,21 +10,7 @@ A Node.js web app that uses the OpenAI API to review and automatically refactor 
 5. Safe review workflow: Changes are staged for review before applying
 6. No server restarts when pending_changes folder updates (thanks to nodemon.json)
 
-## Folder Structure
 
-project-root/
-│
-├── src/
-│   ├── index.js                  # Main backend server
-│   ├── openaiClientOpenAI.js     # OpenAI API client
-│   └── public/
-│       ├── index.html            # Main web UI
-│       └── review.html           # Review/approve UI
-│
-├── .env                          # Environment variables (not committed)
-├── package.json
-├── nodemon.json
-└── README.md
 
 ## Prerequisites
 * Node.js (v18+ recommended)
@@ -34,26 +20,33 @@ project-root/
 
 1. Clone Repo
 
-```git clone https://github.com/kanna-sakthi27/openai-codedeoploy.git```
-```cd openai-codedeoploy```
+```sh 
+git clone https://github.com/kanna-sakthi27/openai-codedeoploy.git 
+cd openai-codedeoploy
+```
 
 2. Install dependencies
 
-```npm install``
+```sh 
+npm install
+```
 
 3. Setup env file
 
 Create a .env file in the root directory:
 
-```OPENAI_API_KEY=sk-...your-openai-key...```
-```OPENAI_MODEL=gpt-4o```
-```CODE_BASE_PATH=./webapp```      # or your code folder
+OPENAI_API_KEY=sk-...your-openai-key...```
+OPENAI_MODEL=gpt-4o```
+CODE_BASE_PATH=./webapp```      # or your code folder
 
 ## Running the App
 
 Start the backend (with auto-restart on code changes, except for pending_changes):
 
-```npm start```
+```sh
+npm start
+
+```
 This runs: nodemon src/index.js
 
 The server will be available at http://localhost:3000
@@ -61,19 +54,20 @@ The server will be available at http://localhost:3000
 
 ### How It Works
 
-Describe a change in the web UI and click "Generate & Apply Code".
+1. Describe a change in the web UI and click "Generate & Apply Code".
 
-The backend processes all files in batches of 3, using OpenAI to suggest changes.
+2. The backend processes all files in batches of 3, using OpenAI to suggest changes.
 
-Progress is shown in real time.
+3. Progress is shown in real time.
 
-Changes are staged in a pending_changes folder for review.
+4. Changes are staged in a pending_changes folder for review.
 
-Go to "Review Pending Changes" to see and approve changes.
+5. Go to "Review Pending Changes" to see and approve changes.
 
-When approved, changes are backed up and applied to your codebase.
+6. When approved, changes are backed up and applied to your codebase.
 
-Preventing Unwanted Restarts
+#### Preventing Unwanted Restarts
+
 The included nodemon.json ensures that changes in pending_changes do not restart your server:
 
 json
@@ -82,16 +76,16 @@ json
 }
 
 ## Security & Privacy
-Never commit your .env file or OpenAI API key to public repositories.
+* Never commit your .env file or OpenAI API key to public repositories.
 
-The app only scans files with extensions: .js, .cs, .xaml, .css (customize in index.js if needed).
+* The app only scans files with extensions: .js, .cs, .xaml, .css (customize in index.js if needed).
 
 ### Customization
-Change supported file extensions in src/index.js (fileExts array).
+* Change supported file extensions in src/index.js (fileExts array).
 
-Adjust batch size by editing batchSize in src/index.js.
+* Addjust batch size by editing batchSize in src/index.js.
 
-Update the system prompt in src/openaiClientOpenAI.js for different code review instructions.
+* Update the system prompt in src/openaiClientOpenAI.js for different code review instructions.
 
 ### Troubleshooting
 If you see "Error during processing!", check your backend logs for errors or memory issues.
