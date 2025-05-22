@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Review Pending Changes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    pre { background: #f4f4f4; padding: 1rem; white-space: pre-wrap; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; }
+    .file-block { margin-bottom: 2rem; }
+    button { margin-top: 1rem; padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Review Pending Changes</h1>
+  <div id="changesContainer">Loading pending changes...</div>
+  <button id="approveBtn">Approve All Changes & Build</button>
+  <div id="status"></div>
+
+  <script>
+    const changesContainer = document.getElementById("changesContainer");
+    const approveBtn = document.getElementById("approveBtn");
+    const statusDiv = document.getElementById("status");
+
+    async function loadPendingChanges() {
+      try {
+        const response = await fetch("/api/pending-changes");
+        const changes = await response.json();
+        if (changes.length === 0) {
+          changesContainer.innerHTML = "<p>No pending changes.</p>";
+          approveBtn.disabled = true;
+          return;
+        }
+        changesContainer.innerHTML = "";
+        changes.forEach(change => {
+          const div = document.createElement("div");
+          div.className = "file-block";
+          div.innerHTML = `<h3>${change.file.replace(/__/g, "/")}</h3><pre>${change.content}</pre>`;
+          changesContainer.appendChild(div);
+        });
+      } catch (err) {
+        changesContainer.innerHTML = `<p>Error loading changes: ${err.message}</p>`;
+      }
+    }
+
+    approveBtn.onclick = async () => {
+      approveBtn.disabled = true;
+      statusDiv.textContent = "Applying changes and building project...";
+      try {
+        const response = await fetch("/api/approve-changes", { method: "POST" });
+        const data = await response.json();
+        if (response.ok) {
+          statusDiv.textContent = `Success:\n${data.message}\n\nBuild output:\n${data.buildOutput}`;
+          changesContainer.innerHTML = "<p>All changes approved and applied.</p>";
+        } else {
+          statusDiv.textContent = `Error: ${data.error}`;
+          approveBtn.disabled = false;
+        }
+      } catch (err) {
+        statusDiv.textContent = `Error: ${err.message}`;
+        approveBtn.disabled = false;
+      }
+    };
+
+    loadPendingChanges();
+  </script>
+</body>
+</html>
